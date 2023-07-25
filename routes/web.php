@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    $role = Auth::user()->role;
+    if($role==1){
+        return view('dashboard'); //Doctor
+    }elseif($role==2){
+        return view('dashboard_2'); //Patients
+    }
+    
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
